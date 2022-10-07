@@ -1,0 +1,14 @@
+version: "3"
+
+networks:
+  birdegop-net:
+    external: true
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: ./.Dockerfile
+    networks:
+      - birdegop-net
