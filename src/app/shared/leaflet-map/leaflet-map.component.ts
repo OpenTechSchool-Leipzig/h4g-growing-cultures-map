@@ -4,6 +4,7 @@ import {icon} from 'leaflet';
 import {MockTrees} from "./mock/mock-trees";
 import {MockParkPolygonPoints} from "./mock/mock-park-polygon";
 import {iconRetinaUrl, iconUrl, shadowUrl} from "./mock/mock-icon-settings";
+import {PopupDatatransferService} from "./services/popup-datatransfer.service";
 
 @Component({
   selector: 'app-leaflet-map',
@@ -13,12 +14,12 @@ import {iconRetinaUrl, iconUrl, shadowUrl} from "./mock/mock-icon-settings";
 export class LeafletMapComponent implements AfterViewInit {
 
   private map: L.Map | undefined;
-  private _userMarker: L.Marker = new L.Marker( [ 0, 0 ] );
+  private _userMarker: L.Marker = new L.Marker([0, 0]);
 
   @ViewChild('pointPopup')
-  pointPopupRef?: ElementRef;
+  pointPopupRef?: ElementRef<HTMLDivElement>;
 
-  constructor() {
+  constructor(public popupDataTransferService: PopupDatatransferService) {
   }
 
   private initMap(): void {
@@ -52,11 +53,15 @@ export class LeafletMapComponent implements AfterViewInit {
         shadowSize: [41, 41]
       }))
 
-      marker.bindPopup(jsonItem.name).openPopup();
+      const popupHtml = this.pointPopupRef?.nativeElement.innerHTML ?? '';
+      marker.bindPopup(
+        L.popup()
+          .setContent(popupHtml)
+      ).openPopup();
     })
   }
 
-  watchUserPosition( map: L.Map, poly: L.Polygon<any> ):void {
+  watchUserPosition(map: L.Map, poly: L.Polygon<any>): void {
     let options = {
       enableHighAccuracy: false,
       timeout: 5000,
@@ -77,9 +82,10 @@ export class LeafletMapComponent implements AfterViewInit {
         shadowSize: [41, 41]
       }))
 
-        this._userMarker.addTo(map);
+      this._userMarker.addTo(map);
 
-    }, (error) => {}, options);
+    }, (error) => {
+    }, options);
   }
 
   ngAfterViewInit(): void {
@@ -106,5 +112,9 @@ export class LeafletMapComponent implements AfterViewInit {
 
     const polygon = L.polygon(MockParkPolygonPoints, {color: 'green'}).addTo(this.map);
     this.map.fitBounds(polygon.getBounds());
+  }
+
+  openModalFromPopup(id: string) {
+
   }
 }
