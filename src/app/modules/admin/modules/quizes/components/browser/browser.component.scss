@@ -1,29 +1,23 @@
 .container {
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
 }
+.content {
+  width: 70%;
+  height: 100%;
 
-.content{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 70%;
-  gap: 5em;
-}
-
-.actions {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
   gap: 1em;
 }
-.card-header {
+.quiz-card {
   width: 100%;
 }
 
-.action-button {
-  flex-grow: 1;
+.create-new-button {
+  align-self: end;
 }

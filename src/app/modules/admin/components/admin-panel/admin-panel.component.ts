@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-admin-panel',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminPanelComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit(): void {
+  constructor(
+    private _router: Router
+  ) { }
+
+  ngOnInit(
+  ): void {
   }
 
+  onViewQuizesClick() {
+    this._router.navigate(['admin', 'quizes']);
+  }
+
+  onViewUsersClick() {
+    this._router.navigate(['admin', 'users']);
+  }
 }
