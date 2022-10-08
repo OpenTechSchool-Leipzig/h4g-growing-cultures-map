@@ -15,6 +15,6 @@ export class QuizService {
   }
 
   public list(): Observable<QuizListItem[]>{
-    return this._httpClient.get<QuizListItem[]>(`${environment.apiUrl}/quiz/list`);
+    return this._httpClient.get<QuizListItem[]>(`${environment.mainApiUrl}/quiz/list`);
   }
 }

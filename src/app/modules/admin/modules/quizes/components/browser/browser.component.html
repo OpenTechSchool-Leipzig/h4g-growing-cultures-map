@@ -1,7 +1,7 @@
 <div class="container">
   <div class="content">
     <button mat-raised-button class="create-new-button" (click)="onCreateNewClick()">Create New</button>
-    <mat-card *ngFor="let quiz of quizes" class="quiz-card">
+    <mat-card *ngFor="let quiz of quizes$ | async" class="quiz-card">
       <mat-card-title-group>
         <mat-card-title>{{quiz.title}}</mat-card-title>
       </mat-card-title-group>
