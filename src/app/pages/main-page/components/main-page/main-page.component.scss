@@ -86,7 +86,9 @@ $btnColor: #10e866;
 .cursorNone{
   cursor: none !important;
 }
-
+section{
+  overflow: hidden;
+}
 .header {
 
   .line{
@@ -545,7 +547,7 @@ main{
   }
 }
 .fullscreen {
-
+  overflow: hidden;
   // .fullscreen__container
 
   &__container {
@@ -572,16 +574,23 @@ main{
 //======================================================
 .fullscrean-page {
   &__outImg{
+    img{
+      position: absolute;
+      animation: showDown 1.3s;
+      top: 0;left: 0;
+      filter: grayscale(1) brightness(1000%) invert(1);
+    }
     pointer-events: none;
     position: absolute;
-    bottom: 0;
+    top: 0;
     right: 0;
-    transform: translate(0,100%);
-    transform: scale(-1, 1) translate(0,100%);
+    transform: scale(-1, 1);
     width: 30%;
     padding-top: 25%;
-		filter: grayscale(1) brightness(50%);
-
+    transition: all 0.8s ease-in 0s;
+    &._leave{
+      transform: translate(0,-100%) scale(-1, 1);
+    }
   }
   // .fullscrean-page__img
 
@@ -608,9 +617,8 @@ main{
     bottom: 0;
     left: 0;
     
-    &._scroll{
-      transform-origin: center bottom;
-      transform: rotate(52deg);
+    &._leave{
+      transform: translate(-100%,0);
     }
   }
 }
@@ -621,6 +629,11 @@ main{
   display: flex;
   flex-direction: column;
   text-align: center;
+  transition: all 0.4s ease-in 0s;
+  &._leave{
+    opacity: 0;
+    overflow: hidden;
+  }
   @include adaptiv-value("padding", 30, 10, 1);
   // .rigth-bar__title
 
@@ -644,7 +657,13 @@ main{
   }
 
   // .rigth-bar__button
+  &__buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   &__button {
+    width: 45%;
     margin-top: 30px;
     padding: 12px 40px;
     display: flex;justify-content:center;align-items: center;
@@ -669,7 +688,16 @@ main{
   to {left:0;}
   
   }
+  @keyframes showDown {
 
+    from {
+      transform: translate(0,-100%);
+      }
+    
+    to {
+      transform: translate(0,0);}
+    
+    }
   @keyframes showUp {
 
     from {
@@ -726,5 +754,20 @@ main{
     border-left: 30px solid transparent;
     border-right: 0 solid transparent;
     border-bottom: 17px solid #161616;
+  }
+}
+
+//===========================
+.map{
+  width: 300px;
+  height: 300px;
+  transition: all 0.8s ease-in 0s;
+  background: rgb(236, 236, 236);
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  &._show{
+    opacity: 1;
+    overflow: visible;
   }
 }

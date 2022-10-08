@@ -38,16 +38,33 @@ export class MainPageComponent implements OnInit {
         menuBody.classList.toggle('_active');
     }
   }
-  showMenu(): void{
+  changingTheEnvironment(): void{
+    const elements = document.querySelectorAll("#tree, #branch, #rigth-bar");
+    const showElement = document.getElementById("map");
+    const header = document.getElementById("header")
+    if(elements != null){
+      elements.forEach(element => {
+        element.classList.contains("_leave")?
+        element.classList.remove("_leave"):
+        element.classList.add("_leave")
+      });
+    }
+    if(showElement != null){
+      showElement.classList.contains("_show")?
+      showElement.classList.remove("_show"):
+      showElement.classList.add("_show")
+    }
+    if(header!= null){
+      header.classList.add("_scroll")
+    }
   }
+
   ngAfterContentInit(): void{
     const triger = document.getElementById("logo");
     const menu = document.getElementById("header");
     if(triger != null && menu != null){
       triger.addEventListener('click', () => {
-        if(window.scrollY > 0){
         menu.classList.toggle('_scroll')
-      }
       })
     }
 
