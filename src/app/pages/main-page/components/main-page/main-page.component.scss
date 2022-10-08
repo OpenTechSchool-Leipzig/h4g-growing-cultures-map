@@ -629,10 +629,11 @@ main{
   display: flex;
   flex-direction: column;
   text-align: center;
+  visibility: visible;
   transition: all 0.4s ease-in 0s;
   &._leave{
     opacity: 0;
-    overflow: hidden;
+    visibility: hidden;
   }
   @include adaptiv-value("padding", 30, 10, 1);
   // .rigth-bar__title
@@ -764,10 +765,10 @@ main{
   transition: all 0.8s ease-in 0s;
   background: rgb(236, 236, 236);
   opacity: 0;
-  overflow: hidden;
+  visibility: hidden;
   position: absolute;
   &._show{
     opacity: 1;
-    overflow: visible;
+    visibility: visible;
   }
 }
