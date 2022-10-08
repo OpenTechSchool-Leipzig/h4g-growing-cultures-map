@@ -1,6 +1,4 @@
-<h1> {{ poi!.name }}</h1>
-<img   src="{{poi!.images[0]!.url}}"/>
-<div *ngFor="let info_node of poi!.info_node; let i = index">
-    <h2>{{item.name}}</h2>
-    <p>{{item.description}}</p>
+<h1> {{ data.poi.name }}</h1>
+<div *ngFor="let info_node of data.poi.info_nodes">
+    <h2>{{info_node.name}}</h2>
 </div>

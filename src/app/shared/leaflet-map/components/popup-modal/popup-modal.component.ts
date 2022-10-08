@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Input } from '@angular/core';
 import {PointOfInterest} from "../../interfaces/poi.interface";
+import {Component, Inject} from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
     selector: 'popup-modal',
@@ -8,14 +10,13 @@ import {PointOfInterest} from "../../interfaces/poi.interface";
 })
 export class PopupModal {
 
-    @Input()
-    poi?: PointOfInterest;
 
-    constructor() {
+    constructor( public dialogRef: MatDialogRef<PopupModal>,
+        @Inject(MAT_DIALOG_DATA) public data: {poi: PointOfInterest}) {
         console.log('myCustomComponent');
     }
 
     ngOnInit() {
-        console.log(this.poi);
+        console.log(this.data.poi);
     }
 }

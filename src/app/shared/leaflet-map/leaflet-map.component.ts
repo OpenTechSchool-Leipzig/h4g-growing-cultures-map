@@ -4,9 +4,11 @@ import {icon} from 'leaflet';
 import {MockParkPolygonPoints} from "./mock/mock-park-polygon";
 import {LeafletService} from "./services/leaflet.service";
 import {PointOfInterest} from "./interfaces/poi.interface";
+import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 import {iconRetinaUrl, iconUrl, shadowUrl, userIcon} from "./mock/mock-icon-settings";
 import {PopupDatatransferService} from "./services/popup-datatransfer.service";
+import { PopupModal } from './components/popup-modal/popup-modal.component';
 
 @Component({
   selector: 'app-leaflet-map',
@@ -18,6 +20,7 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   private map: L.Map | undefined;
   private _userMarker: L.Marker = new L.Marker([0, 0], {icon: userIcon});
 
+
   mainData?: {
     id: string;
     name: string;
@@ -27,7 +30,8 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   openedPopup?: PointOfInterest = undefined;
 
   constructor(private leafletService: LeafletService,
-              public popupDataTransferService: PopupDatatransferService) {
+              public popupDataTransferService: PopupDatatransferService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -199,8 +203,11 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
 
   openModalFromPopup(poi: PointOfInterest) {
     this.map!.closePopup();
-
+    this.dialog.open(PopupModal, {
+      data: {
+        poi,
+      },
+    });
     console.log(poi)
-
   }
 }
