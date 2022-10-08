@@ -75,7 +75,7 @@ export class LeafletMapComponent implements AfterViewInit {
 
     json.map<void>(jsonItem => {
       let marker =L.marker([jsonItem.lat, jsonItem.lng]).addTo(map);
-      marker.bindPopup("<h1>Test<h1><br>"+jsonItem.name).openPopup();
+      marker.bindPopup(jsonItem.name).openPopup();
     })
   }
 
