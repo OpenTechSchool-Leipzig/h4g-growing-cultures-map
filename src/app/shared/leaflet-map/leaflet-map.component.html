@@ -4,6 +4,26 @@
   </div>
 </div>
 
-<ng-container #pointPopup>
+<div #pointPopup
+     class="hidden"
+>
+  <div class="popup-container">
+    <ng-container *ngIf="popupDataTransferService.popupData | async as data; else noPopupDataTemplate">
+      <div class="title-wrapper">
+        {{ data.title }}
+      </div>
+      <div class="description-wrapper">
+        {{ data.description }}
+      </div>
 
-</ng-container>
+      <div class="show-more-button-wrapper">
+        <button class="show-more"
+                (click)="openModalFromPopup(data.id)"
+        >
+          More
+        </button>
+      </div>
+    </ng-container>
+    <ng-template #noPopupDataTemplate></ng-template>
+  </div>
+</div>

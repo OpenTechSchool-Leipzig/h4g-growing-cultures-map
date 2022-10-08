@@ -3,11 +3,12 @@ import * as L from 'leaflet';
 import {icon} from 'leaflet';
 import {MockTrees} from "./mock/mock-trees";
 import {MockParkPolygonPoints} from "./mock/mock-park-polygon";
-import {iconRetinaUrl, iconUrl, shadowUrl, userIcon} from "./mock/mock-icon-settings";
 import {Observable} from "rxjs";
 import {LeafletService} from "./services/leaflet.service";
 import {PointOfInterest} from "./interfaces/poi.interface";
 
+import {iconRetinaUrl, iconUrl, shadowUrl} from "./mock/mock-icon-settings";
+import {PopupDatatransferService} from "./services/popup-datatransfer.service";
 
 @Component({
   selector: 'app-leaflet-map',
@@ -31,6 +32,12 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   constructor(private leafletService: LeafletService) {
   }
 
+  @ViewChild('pointPopup')
+  pointPopupRef?: ElementRef<HTMLDivElement>;
+
+  constructor(public popupDataTransferService: PopupDatatransferService) {
+  }
+
   private initMap(): void {
     this.map = L.map('map', {
       center: [39.8282, -98.5795],
@@ -46,9 +53,7 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
     this.watchUserPosition(this.map, polygon);
 
   }
-
-  // TODO: Remove Mock data from usage.
-
+// TODO: Remove Mock data from usage.
   private initMarkers(map: L.Map): void {
     MockTrees.map<void>(jsonItem => {
       let marker = L.marker([jsonItem.lat, jsonItem.lng]).addTo(map);
@@ -64,7 +69,11 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
         shadowSize: [41, 41]
       }))
 
-      marker.bindPopup(jsonItem.name).openPopup();
+      const popupHtml = this.pointPopupRef?.nativeElement.innerHTML ?? '';
+      marker.bindPopup(
+        L.popup()
+          .setContent(popupHtml)
+      ).openPopup();
     })
   }
 
@@ -77,7 +86,16 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
     navigator.geolocation.watchPosition((pos) => {
       this._userMarker.remove;
       this._userMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
-
+      this._userMarker.setIcon(icon({
+        iconRetinaUrl,
+        iconUrl,
+        shadowUrl,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        tooltipAnchor: [16, -28],
+        shadowSize: [41, 41]
+      }))
       this._userMarker.addTo(map);
 
     }, (_) => {
@@ -115,5 +133,9 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
 
     const polygon = L.polygon(MockParkPolygonPoints, {color: 'green'}).addTo(this.map);
     this.map.fitBounds(polygon.getBounds());
+  }
+
+  openModalFromPopup(id: string) {
+
   }
 }
