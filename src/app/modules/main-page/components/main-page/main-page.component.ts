@@ -29,7 +29,44 @@ export class MainPageComponent implements OnInit {
     }
 
   }
+  menuSwitch(): void{
+    let iconMenu = document.querySelector('.icon-menu');
+    let menuBody = document.querySelector('.menu__body');
+
+    if(iconMenu != null && menuBody != null){
+        iconMenu.classList.toggle('_active');
+        menuBody.classList.toggle('_active');
+    }
+  }
+  changingTheEnvironment(): void{
+    const elements = document.querySelectorAll("#tree, #branch, #rigth-bar");
+    const showElement = document.getElementById("map");
+    const header = document.getElementById("header")
+    if(elements != null){
+      elements.forEach(element => {
+        element.classList.contains("_leave")?
+        element.classList.remove("_leave"):
+        element.classList.add("_leave")
+      });
+    }
+    if(showElement != null){
+      showElement.classList.contains("_show")?
+      showElement.classList.remove("_show"):
+      showElement.classList.add("_show")
+    }
+    if(header!= null){
+      header.classList.add("_scroll")
+    }
+  }
+
   ngAfterContentInit(): void{
+    const triger = document.getElementById("logo");
+    const menu = document.getElementById("header");
+    if(triger != null && menu != null){
+      triger.addEventListener('click', () => {
+        menu.classList.toggle('_scroll')
+      })
+    }
 
     function cursorNone(){
       document.querySelectorAll('body *:not(script)').forEach(element => element.classList.add("cursorNone"));
@@ -47,7 +84,6 @@ export class MainPageComponent implements OnInit {
       let posX = 0, posY = 0, mouseX = 0, mouseY = 0;
       let followerSpead =0,cursorMargin=0,clickDuration=1000;
 
-      console.log(cursor)
       if(cursor != null && follower != null){
         let followerValue = follower.getAttribute('cursor-animation-property')
         if(followerValue){
@@ -55,7 +91,6 @@ export class MainPageComponent implements OnInit {
           followerSpead = parseInt(_followerValue[0])
           cursorMargin = parseInt(_followerValue[1])
           clickDuration = parseInt(_followerValue[2])
-          console.log(_followerValue[0])
         }
         //-------------------
         setInterval(() => {
@@ -99,11 +134,15 @@ export class MainPageComponent implements OnInit {
     function headerbg(){
       //цвет хедера
       const header =  document.getElementById('header');
+      const tree =  document.getElementById('tree');
       if(header != null){
         const callback = function(entries: any,observer: any) {
           if(entries[0].isIntersecting){
             header.classList.remove('_scroll');
           }else{
+            if(tree!=null){
+              tree.classList.add('_scroll');
+            }
             header.classList.add('_scroll');
           }
         }

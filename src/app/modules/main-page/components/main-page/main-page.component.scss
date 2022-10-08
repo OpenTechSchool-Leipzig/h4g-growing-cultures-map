@@ -69,16 +69,26 @@ $md3: 767.98;
 $md4: 479.98;
 
 $mainColor: #f6f6f6;
-$hoverColor: #04db5a;
+$hoverColor: #03ae48;
+$btnColor: #10e866;
 //====================================================================================================
-
-//-webkit-overflow-scrolling: touch;
-//animation-play-state: paused !important;
-
+._ibg {
+  position: relative;
+  img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+  }
+}
 .cursorNone{
   cursor: none !important;
 }
-
+section{
+  overflow: hidden;
+}
 .header {
 
   .line{
@@ -87,18 +97,17 @@ $hoverColor: #04db5a;
     left:0;
     height: 2px;
     background-color: $hoverColor;
-    box-shadow:0px 0px 7px 0px rgba(118, 172, 254, 1);
-    -webkit-box-shadow: 0px 0px 7px 0px rgba(118, 172, 254, 1);
-    -moz-box-shadow: 0px 0px 7px 0px rgba(118, 172, 254, 1);
+    box-shadow:0px 0px 7px 0px rgb(118, 254, 123);
+    -webkit-box-shadow: 0px 0px 7px 0px rgb(118, 254, 123);
+    -moz-box-shadow: 0px 0px 7px 0px rgb(118, 254, 166);
   }
   &._scroll {
     .header__wrapper {
+      transition: all 0.8s ease;
+      transition-delay: 0.1s;
+      
+      transform: translate(0,calc(-100% + 2px));
       background: #161616;
-      transition: all 0.1s ease 0s;
-      @supports ((-webkit-backdrop-filter: blur(31px)) or (backdrop-filter: blur(31px))) {
-        background: #161616ce;
-        backdrop-filter: blur(31px);
-      }
     }
   }
   position: absolute;
@@ -107,19 +116,20 @@ $hoverColor: #04db5a;
   width: 100%;
   a {
     font-weight: 500;
-    @include adaptiv-value("font-size", 16, 14, 1);
+    @include adaptiv-value("font-size", 21, 14, 1);
     line-height: 130%;
     color: $mainColor;
     transition: all 0.3s ease 0s;
     @media (any-hover: hover) {
       &:hover {
-        color: #2f80ed;
+        color: $hoverColor;
       }
     }
   }
   // .header__wrapper
 
   &__wrapper {
+    transition: all 0.8s ease;
     position: fixed;
     width: 100%;
     left: 0;
@@ -139,37 +149,42 @@ $hoverColor: #04db5a;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
+    padding: 10px 5%;
     min-height: 110px;
     transition: min-height 0.3s ease 0s;
     @media (max-width: $md3 + px) {
-      min-height: 80px;
       transition: all 0.3s ease 0s;
 
     }
   }
   &._scroll {
     .header__body {
-      min-height: 90px;
       transition: all 0.3s ease 0s;
     }
   }
   // .header__logo
+  position: relative;
+  right: 0;
 
   &__logo {
+    position: absolute;
+    @include adaptiv-value("left", 100, 30, 1);
     @media (max-width: 860px) {
       flex: 1 1 72%;
+      justify-content: flex-end;
     }
     z-index: 100;
-    min-width: 130px;
+    min-width: 30%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
   }
 
   // .header__logo-link
 
   &__logo-link {
+    width: 14%;
+    padding-top: 14%;
   }
 
   // .header__info
@@ -189,7 +204,8 @@ $hoverColor: #04db5a;
   // .header__menu
 
   &__menu {
-    flex: 1 1 auto;
+    margin-left: auto;
+    flex: 0 1 80%;
     @media (min-width: 860px) {
       li {
         z-index: 100;
@@ -204,7 +220,7 @@ $hoverColor: #04db5a;
           width: 100%;
           height: 100%;
           transition: all 0.3s ease 0s;
-          border: 1px solid #2f80ed;
+          border: 1px solid $hoverColor;
           transform: rotate(-15deg) scale(0);
           border-radius: 50%;
           z-index: -10;
@@ -518,7 +534,241 @@ $hoverColor: #04db5a;
 }
 
 //=============================================================================================================
-.foo{
-  height: 200vh;
+main{
+  min-height: 100vh;
+}
+.section {
+  // .section__fullscreen
+
+  &__fullscreen {
+    padding-top: 100px;
+    height: 100vh;
+    background: #222222;
+  }
+}
+.fullscreen {
+  overflow: hidden;
+  // .fullscreen__container
+
+  &__container {
+    width: 100%;
+    display: flex;justify-content:center;align-items: center;
+    height: 100%;
+  }
+}
+.rigth-bar {
+  @media (max-width:$md2+px){
+    width: 90%;
+    margin-right: 0;
+    margin: 0 auto;
+  }
+  margin-right: 100px;
+  margin-left: auto;
+  width: 60%;
+  min-height: 60%;
+  background: #282828;-webkit-box-shadow: -2px 57px 33px -44px rgba(17, 17, 17, 0.33);
+  -moz-box-shadow: -2px 57px 33px -44px rgba(17, 17, 17, 0.33);
+  box-shadow: -2px 57px 33px -44px rgba(17, 17, 17, 0.33);
+}
+
+//======================================================
+.fullscrean-page {
+  &__outImg{
+    img{
+      position: absolute;
+      animation: showDown 1.3s;
+      top: 0;left: 0;
+      filter: grayscale(1) brightness(1000%) invert(1);
+    }
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: scale(-1, 1);
+    width: 30%;
+    padding-top: 25%;
+    transition: all 0.8s ease-in 0s;
+    &._leave{
+      transform: translate(0,-100%) scale(-1, 1);
+    }
+  }
+  // .fullscrean-page__img
+
+  &__img {
+    transition: all 0.8s ease-in;
+    transition-delay: 0.2s;
+    img{
+      pointer-events: none;
+      animation: showLeft 1s;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      -o-object-fit: cover;
+         object-fit: cover;
+    }
+    z-index: 5;
+		padding-top: 34%;
+		width: 40%;
+    transform-origin: center bottom;
+		filter: grayscale(1) brightness(1000%);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    
+    &._leave{
+      transform: translate(-100%,0);
+    }
+  }
+}
+
+.rigth-bar {
+  color: #ffffff;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  visibility: visible;
+  transition: all 0.4s ease-in 0s;
+  &._leave{
+    opacity: 0;
+    visibility: hidden;
+  }
+  @include adaptiv-value("padding", 30, 10, 1);
+  // .rigth-bar__title
+
+  &__title {
+    font-size: 60px;
+    animation: showUp 1s;
+    opacity: 0;
+    animation-fill-mode: forwards; 
+  }
+
+  // .rigth-bar__text
+
+  &__text {
+    padding-top: 30px;
+    font-size: 22px;
+    animation: showUp 1s;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards; 
+    flex: 1 1 auto;
+    opacity: 0;
+  }
+
+  // .rigth-bar__button
+  &__buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__button {
+    width: 45%;
+    margin-top: 30px;
+    padding: 12px 40px;
+    display: flex;justify-content:center;align-items: center;
+    color: #000;
+    font-weight: 700;
+    background: $btnColor;
+    font-size: 30px;
+    transition: all 0.3s ease 0s;
+    @media (any-hover: hover){
+      &:hover{
+        background: $hoverColor;
+      }
+    }
+    display: block;
+  }
+}
+
+@keyframes showLeft {
+
+  from {left:-100%;}
+  
+  to {left:0;}
+  
+  }
+  @keyframes showDown {
+
+    from {
+      transform: translate(0,-100%);
+      }
+    
+    to {
+      transform: translate(0,0);}
+    
+    }
+  @keyframes showUp {
+
+    from {
+      opacity: 0;
+      transform: translate(0,-50px);
+    }
+    
+    to {
+      opacity: 1;
+      transform: translate(0,0%);
+    }
+    
+    }
+
+.logo{
   background: #161616;
+  position: fixed;
+  z-index: 100;
+  top: 0px;
+  width: 60px;
+  left: 100px;
+  padding-top: 10px;
+  display: flex;justify-content:center;align-items: center;
+  height: 90px;
+  
+  @media (max-width: 860px) {
+    right: 10px;
+    left: auto;
+  }
+  .img-wrapper{
+    width: 79%;
+    padding-top: 87%;
+  }
+  &::before{
+    content:'';
+    width: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: scale(1, -1) translate(0,-100%);
+    height: 0;
+    border-left: 0 solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 17px solid #161616;
+  }
+  &::after{
+    content:'';
+    width: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: scale(1, -1) translate(0,-100%);
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 0 solid transparent;
+    border-bottom: 17px solid #161616;
+  }
+}
+
+//===========================
+.map{
+  width: 300px;
+  height: 300px;
+  transition: all 0.8s ease-in 0s;
+  background: rgb(236, 236, 236);
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  &._show{
+    opacity: 1;
+    visibility: visible;
+  }
 }
