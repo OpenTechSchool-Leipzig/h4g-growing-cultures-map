@@ -1,24 +1,34 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import * as L from 'leaflet';
 import {icon} from 'leaflet';
 import {MockTrees} from "./mock/mock-trees";
 import {MockParkPolygonPoints} from "./mock/mock-park-polygon";
 import {iconRetinaUrl, iconUrl, shadowUrl, userIcon} from "./mock/mock-icon-settings";
+import {Observable} from "rxjs";
+import {LeafletService} from "./services/leaflet.service";
+import {PointOfInterest} from "./interfaces/poi.interface";
+
 
 @Component({
   selector: 'app-leaflet-map',
   templateUrl: './leaflet-map.component.html',
   styleUrls: ['./leaflet-map.component.scss']
 })
-export class LeafletMapComponent implements AfterViewInit {
+export class LeafletMapComponent implements OnInit, AfterViewInit {
 
   private map: L.Map | undefined;
-  private _userMarker: L.Marker = new L.Marker( [ 0, 0 ], {icon: userIcon} );
+  private _userMarker: L.Marker = new L.Marker([0, 0], {icon: userIcon});
 
   @ViewChild('pointPopup')
   pointPopupRef?: ElementRef;
 
-  constructor() {
+  pois$?: Observable<{
+    id: string;
+    name: string;
+    pois: PointOfInterest[];
+  }>;
+
+  constructor(private leafletService: LeafletService) {
   }
 
   private initMap(): void {
@@ -36,6 +46,8 @@ export class LeafletMapComponent implements AfterViewInit {
     this.watchUserPosition(this.map, polygon);
 
   }
+
+  // TODO: Remove Mock data from usage.
 
   private initMarkers(map: L.Map): void {
     MockTrees.map<void>(jsonItem => {
@@ -56,7 +68,7 @@ export class LeafletMapComponent implements AfterViewInit {
     })
   }
 
-  watchUserPosition( map: L.Map, poly: L.Polygon<any> ):void {
+  watchUserPosition(map: L.Map, _: L.Polygon<any>): void {
     let options = {
       enableHighAccuracy: false,
       timeout: 5000,
@@ -66,9 +78,17 @@ export class LeafletMapComponent implements AfterViewInit {
       this._userMarker.remove;
       this._userMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
 
-        this._userMarker.addTo(map);
+      this._userMarker.addTo(map);
 
-    }, (error) => {}, options);
+    }, (_) => {
+    }, options);
+  }
+
+  ngOnInit() {
+    this.pois$ = this.leafletService.fetchData();
+    this.pois$.subscribe((res) => {
+      console.log(res)
+    })
   }
 
   ngAfterViewInit(): void {
