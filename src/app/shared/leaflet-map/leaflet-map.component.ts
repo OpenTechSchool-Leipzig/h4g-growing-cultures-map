@@ -3,7 +3,7 @@ import * as L from 'leaflet';
 import {icon} from 'leaflet';
 import {MockTrees} from "./mock/mock-trees";
 import {MockParkPolygonPoints} from "./mock/mock-park-polygon";
-import {iconRetinaUrl, iconUrl, shadowUrl} from "./mock/mock-icon-settings";
+import {iconRetinaUrl, iconUrl, shadowUrl, userIcon} from "./mock/mock-icon-settings";
 
 @Component({
   selector: 'app-leaflet-map',
@@ -13,7 +13,7 @@ import {iconRetinaUrl, iconUrl, shadowUrl} from "./mock/mock-icon-settings";
 export class LeafletMapComponent implements AfterViewInit {
 
   private map: L.Map | undefined;
-  private _userMarker: L.Marker = new L.Marker( [ 0, 0 ] );
+  private _userMarker: L.Marker = new L.Marker( [ 0, 0 ], {icon: userIcon} );
 
   @ViewChild('pointPopup')
   pointPopupRef?: ElementRef;
@@ -65,17 +65,6 @@ export class LeafletMapComponent implements AfterViewInit {
     navigator.geolocation.watchPosition((pos) => {
       this._userMarker.remove;
       this._userMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
-
-      this._userMarker.setIcon(icon({
-        iconRetinaUrl,
-        iconUrl,
-        shadowUrl,
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        tooltipAnchor: [16, -28],
-        shadowSize: [41, 41]
-      }))
 
         this._userMarker.addTo(map);
 
