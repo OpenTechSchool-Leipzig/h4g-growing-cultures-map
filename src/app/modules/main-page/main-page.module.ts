@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MainPageComponent} from './components/main-page/main-page.component';
 import {RouterModule, Routes} from "@angular/router";
+import {MainPageComponent} from "./components/main-page/main-page.component";
 
 const routes: Routes = [
   {
