@@ -1,8 +1,10 @@
 <div class="container">
   <form class="example-form" [formGroup]="formGroup">
-    <button mat-mini-fab color="primary" class="go-back" (click)="onGoBackClick()">
-      <mat-icon>keyboard_backspace</mat-icon>
-    </button>
+    <div class="go-back">
+      <button mat-mini-fab color="primary" (click)="onGoBackClick()">
+        <mat-icon>keyboard_backspace</mat-icon>
+      </button>
+    </div>
 
     <mat-vertical-stepper>
 
