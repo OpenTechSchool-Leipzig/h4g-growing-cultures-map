@@ -29,6 +29,15 @@ export class MainPageComponent implements OnInit {
     }
 
   }
+  menuSwitch(): void{
+    let iconMenu = document.querySelector('.icon-menu');
+    let menuBody = document.querySelector('.menu__body');
+
+    if(iconMenu != null && menuBody != null){
+        iconMenu.classList.toggle('_active');
+        menuBody.classList.toggle('_active');
+    }
+}
   ngAfterContentInit(): void{
 
     function cursorNone(){
