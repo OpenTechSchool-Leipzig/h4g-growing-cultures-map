@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="frontend Compose birdegop.ru" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker birdegop.ru">
+  <configuration default="false" name="frontend Compose birdegop.ru" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
     <deployment type="docker-compose.yml">
       <settings>
         <option name="envFilePath" value="" />
