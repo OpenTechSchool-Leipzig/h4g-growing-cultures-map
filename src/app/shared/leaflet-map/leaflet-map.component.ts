@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
 import {LeafletService} from "./services/leaflet.service";
 import {PointOfInterest} from "./interfaces/poi.interface";
 
-import {iconRetinaUrl, iconUrl, shadowUrl} from "./mock/mock-icon-settings";
+import {iconRetinaUrl, iconUrl, shadowUrl, userIcon} from "./mock/mock-icon-settings";
 import {PopupDatatransferService} from "./services/popup-datatransfer.service";
 
 @Component({
@@ -20,22 +20,17 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   private map: L.Map | undefined;
   private _userMarker: L.Marker = new L.Marker([0, 0], {icon: userIcon});
 
-  @ViewChild('pointPopup')
-  pointPopupRef?: ElementRef;
-
   pois$?: Observable<{
     id: string;
     name: string;
     pois: PointOfInterest[];
   }>;
 
-  constructor(private leafletService: LeafletService) {
-  }
-
   @ViewChild('pointPopup')
   pointPopupRef?: ElementRef<HTMLDivElement>;
 
-  constructor(public popupDataTransferService: PopupDatatransferService) {
+  constructor(private leafletService: LeafletService,
+              public popupDataTransferService: PopupDatatransferService) {
   }
 
   private initMap(): void {
@@ -53,6 +48,7 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
     this.watchUserPosition(this.map, polygon);
 
   }
+
 // TODO: Remove Mock data from usage.
   private initMarkers(map: L.Map): void {
     MockTrees.map<void>(jsonItem => {
