@@ -1,9 +1,7 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import * as L from 'leaflet';
 import {icon} from 'leaflet';
-import {MockTrees} from "./mock/mock-trees";
 import {MockParkPolygonPoints} from "./mock/mock-park-polygon";
-import {Observable} from "rxjs";
 import {LeafletService} from "./services/leaflet.service";
 import {PointOfInterest} from "./interfaces/poi.interface";
 
@@ -20,18 +18,31 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   private map: L.Map | undefined;
   private _userMarker: L.Marker = new L.Marker([0, 0], {icon: userIcon});
 
-  pois$?: Observable<{
+  mainData?: {
     id: string;
     name: string;
     pois: PointOfInterest[];
-  }>;
+  };
 
-  @ViewChild('pointPopup')
-  pointPopupRef?: ElementRef<HTMLDivElement>;
+  openedPopup?: PointOfInterest = undefined;
 
   constructor(private leafletService: LeafletService,
               public popupDataTransferService: PopupDatatransferService) {
   }
+
+  ngOnInit() {
+    this.leafletService.fetchData()
+      .subscribe((res) => {
+        this.mainData = res;
+        this.initMap();
+        this.map!.closePopup();
+      })
+  }
+
+  ngAfterViewInit(): void {
+
+  }
+
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -41,18 +52,57 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
 
     this.initTiles();
 
-    //this.initPolygons();
-    const polygon = L.polygon(MockParkPolygonPoints, {color: 'green'}).addTo(this.map);
-    this.map.fitBounds(polygon.getBounds());
+    this.initPolygons();
+
     this.initMarkers(this.map);
-    this.watchUserPosition(this.map, polygon);
+
+    this.map.on('popupopen', (event) => {
+      const latLng = event.popup.getLatLng();
+      if (!latLng || !this.mainData) {
+        return;
+      }
+
+
+      const openedPopup = this.mainData.pois.filter((poi) =>
+        poi.location.lat == latLng.lat && poi.location.lon == latLng.lng
+      )[0];
+      this.openedPopup = openedPopup;
+      event.popup.setContent(`
+        <div class="popup-container">
+          <div class="title-wrapper">
+            ${openedPopup.name}
+          </div>
+          <div class="description-wrapper">
+            ${openedPopup.location.lat}, ${openedPopup.location.lon}
+          </div>
+
+          <div class="show-more-button-wrapper">
+            <button class="show-more"
+                    id="show-more-btn-${openedPopup.id}"
+                    (click)="openModalFromPopup(openedPopup)"
+            >
+              More
+            </button>
+          </div>
+        </div>
+      `);
+      if (!document.getElementById(`show-more-btn-${openedPopup.id}`)) {
+        return;
+      }
+      document.getElementById(`show-more-btn-${openedPopup.id}`)!.addEventListener('click', () => {
+        this.openModalFromPopup(openedPopup);
+      });
+    });
 
   }
 
-// TODO: Remove Mock data from usage.
   private initMarkers(map: L.Map): void {
-    MockTrees.map<void>(jsonItem => {
-      let marker = L.marker([jsonItem.lat, jsonItem.lng]).addTo(map);
+    if (!this.mainData) {
+      return;
+    }
+
+    this.mainData.pois.forEach((poi) => {
+      let marker = L.marker([poi.location.lat, poi.location.lon]).addTo(map);
 
       marker.setIcon(icon({
         iconRetinaUrl,
@@ -65,13 +115,61 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
         shadowSize: [41, 41]
       }))
 
-      const popupHtml = this.pointPopupRef?.nativeElement.innerHTML ?? '';
+      const popupHtml = `
+        <div class="popup-container">
+          <div class="title-wrapper">
+            ${poi.name}
+          </div>
+          <div class="description-wrapper">
+            ${poi.location.lat}, ${poi.location.lon}
+          </div>
+
+          <div class="show-more-button-wrapper">
+            <button class="show-more"
+                    id="show-more-btn-${poi.id}"
+                    (click)="openModalFromPopup(openedPopup)"
+            >
+              More
+            </button>
+          </div>
+        </div>
+      `;
+      if (document.getElementById(`show-more-btn-${poi.id}`)) {
+        document.getElementById(`show-more-btn-${poi.id}`)!.addEventListener('click', () => {
+          this.openModalFromPopup(poi);
+        })
+      }
+
       marker.bindPopup(
         L.popup()
           .setContent(popupHtml)
       ).openPopup();
     })
   }
+
+  private initTiles(): void {
+    if (!this.map) {
+      return;
+    }
+
+    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      minZoom: 3,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+    tiles.addTo(this.map);
+  }
+
+  private initPolygons(): void {
+    if (!this.map) {
+      return;
+    }
+
+    const polygon = L.polygon(MockParkPolygonPoints, {color: 'green'}).addTo(this.map);
+    this.map.fitBounds(polygon.getBounds());
+    this.watchUserPosition(this.map, polygon);
+  }
+
 
   watchUserPosition(map: L.Map, _: L.Polygon<any>): void {
     let options = {
@@ -98,40 +196,11 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
     }, options);
   }
 
-  ngOnInit() {
-    this.pois$ = this.leafletService.fetchData();
-    this.pois$.subscribe((res) => {
-      console.log(res)
-    })
-  }
 
-  ngAfterViewInit(): void {
-    this.initMap();
-  }
+  openModalFromPopup(poi: PointOfInterest) {
+    this.map!.closePopup();
 
-  private initTiles(): void {
-    if (!this.map) {
-      return;
-    }
-
-    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      minZoom: 3,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
-    tiles.addTo(this.map);
-  }
-
-  private initPolygons(): void {
-    if (!this.map) {
-      return;
-    }
-
-    const polygon = L.polygon(MockParkPolygonPoints, {color: 'green'}).addTo(this.map);
-    this.map.fitBounds(polygon.getBounds());
-  }
-
-  openModalFromPopup(id: string) {
+    console.log(poi)
 
   }
 }

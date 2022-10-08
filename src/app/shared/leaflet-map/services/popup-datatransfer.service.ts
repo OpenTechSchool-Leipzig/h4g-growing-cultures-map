@@ -1,29 +1,20 @@
 import {Injectable} from '@angular/core';
-import {Subject} from "rxjs";
-
-export interface IPopupBrief {
-  id: string;
-  title: string;
-  description: string;
-}
-
-export interface IPopup extends IPopupBrief{
-
-}
+import {PointOfInterest} from "../interfaces/poi.interface";
 
 @Injectable()
 export class PopupDatatransferService {
 
-  public popupData: Subject<IPopup> | undefined;
+  public popupData?: PointOfInterest;
 
   constructor() {
   }
 
-  updatePopupData(value: IPopup): void {
+  updatePopupData(value: PointOfInterest): void {
     if (!this.popupData) {
       return;
     }
 
-    this.popupData.next(value);
+    this.popupData = value;
+    // this.popupData.next(value);
   }
 }
