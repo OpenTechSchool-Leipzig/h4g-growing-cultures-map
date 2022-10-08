@@ -1,0 +1,73 @@
+<div class="container">
+  <form class="example-form" [formGroup]="formGroup">
+    <div class="go-back">
+      <button mat-mini-fab color="primary" (click)="onGoBackClick()">
+        <mat-icon>keyboard_backspace</mat-icon>
+      </button>
+    </div>
+
+    <mat-vertical-stepper>
+
+      <mat-step>
+
+        <ng-template matStepLabel>General Info</ng-template>
+
+        <mat-form-field class="input-full-width" appearance="fill">
+          <mat-label>Title</mat-label>
+          <input matInput placeholder="Quiz Title" formControlName="title">
+          <mat-error *ngIf="formGroup.get('title')?.errors">Minimum of 1 symbol required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="input-full-width" appearance="fill">
+          <mat-label>Description</mat-label>
+          <textarea matInput placeholder="Quiz Description"  formControlName="description"></textarea>
+          <mat-error *ngIf="formGroup.get('description')?.errors">Minimum of 1 symbol required</mat-error>
+        </mat-form-field>
+
+      </mat-step>
+
+      <mat-step>
+
+        <ng-template matStepLabel>Quiz Steps</ng-template>
+
+        <div class="steps-container" formArrayName="steps" cdkDropList (cdkDropListDropped)="drop($event)">
+
+          <mat-card *ngFor="let step of stepsFormArray.controls; let i = index;" [formGroupName]="i" cdkDrag>
+            <mat-form-field class="input-full-width" appearance="fill">
+              <mat-label>Title</mat-label>
+              <input matInput placeholder="Step Title" formControlName="title">
+              <mat-error *ngIf="step.get('title')?.errors">Minimum of 1 symbol required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="input-full-width" appearance="fill">
+              <mat-label>Description</mat-label>
+              <textarea matInput placeholder="Step Description"  formControlName="description"></textarea>
+              <mat-error *ngIf="step.get('description')?.errors">Minimum of 1 symbol required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="input-full-width" appearance="fill">
+              <mat-label>External Id</mat-label>
+              <textarea matInput placeholder="External Id"  formControlName="externalId"></textarea>
+              <mat-error *ngIf="formGroup.get('externalId')?.errors">Minimum of 1 symbol required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="input-full-width" appearance="fill">
+              <mat-label>Order</mat-label>
+              <input matInput placeholder="Order" type="number" formControlName="order" readonly/>
+            </mat-form-field>
+
+            <mat-card-actions>
+              <button mat-button (click)="onRemoveStepClick(i)">Remove</button>
+            </mat-card-actions>
+
+          </mat-card>
+
+          <button mat-raised-button (click)="addStep()">Add Step</button>
+        </div>
+      </mat-step>
+
+    </mat-vertical-stepper>
+
+    <button mat-raised-button color="primary" (click)="onSaveClick()" [disabled]="isSaving">Save</button>
+  </form>
+</div>
