@@ -2,11 +2,11 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MainPageComponent} from './components/main-page/main-page.component';
 import {RouterModule, Routes} from "@angular/router";
+import {AgmCoreModule} from "@agm/core";
 
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
     component: MainPageComponent
   }
 ]
@@ -17,7 +17,8 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    AgmCoreModule
   ]
 })
 export class MainPageModule {
