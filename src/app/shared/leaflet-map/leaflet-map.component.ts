@@ -4,11 +4,11 @@ import {icon} from 'leaflet';
 import {MockParkPolygonPoints} from "./mock/mock-park-polygon";
 import {LeafletService} from "./services/leaflet.service";
 import {PointOfInterest} from "./interfaces/poi.interface";
-import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 
 import {iconRetinaUrl, iconUrl, shadowUrl, userIcon} from "./mock/mock-icon-settings";
 import {PopupDatatransferService} from "./services/popup-datatransfer.service";
-import { PopupModal } from './components/popup-modal/popup-modal.component';
+import {PopupModal} from './components/popup-modal/popup-modal.component';
 
 @Component({
   selector: 'app-leaflet-map',
@@ -71,25 +71,7 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
         poi.location.lat == latLng.lat && poi.location.lon == latLng.lng
       )[0];
       this.openedPopup = openedPopup;
-      event.popup.setContent(`
-        <div class="popup-container">
-          <div class="title-wrapper">
-            ${openedPopup.name}
-          </div>
-          <div class="description-wrapper">
-            ${openedPopup.location.lat}, ${openedPopup.location.lon}
-          </div>
-
-          <div class="show-more-button-wrapper">
-            <button class="show-more"
-                    id="show-more-btn-${openedPopup.id}"
-                    (click)="openModalFromPopup(openedPopup)"
-            >
-              More
-            </button>
-          </div>
-        </div>
-      `);
+      event.popup.setContent(this.getMarketHtml(openedPopup));
       if (!document.getElementById(`show-more-btn-${openedPopup.id}`)) {
         return;
       }
@@ -119,25 +101,7 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
         shadowSize: [41, 41]
       }))
 
-      const popupHtml = `
-        <div class="popup-container">
-          <div class="title-wrapper">
-            ${poi.name}
-          </div>
-          <div class="description-wrapper">
-            ${poi.location.lat}, ${poi.location.lon}
-          </div>
-
-          <div class="show-more-button-wrapper">
-            <button class="show-more"
-                    id="show-more-btn-${poi.id}"
-                    (click)="openModalFromPopup(openedPopup)"
-            >
-              More
-            </button>
-          </div>
-        </div>
-      `;
+      const popupHtml = this.getMarketHtml(poi);
       if (document.getElementById(`show-more-btn-${poi.id}`)) {
         document.getElementById(`show-more-btn-${poi.id}`)!.addEventListener('click', () => {
           this.openModalFromPopup(poi);
@@ -208,6 +172,27 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
         poi,
       },
     });
-    console.log(poi)
+  }
+
+  private getMarketHtml(poi: PointOfInterest): string {
+    return `
+        <div class="popup-container">
+          <div class="title-wrapper">
+            <h1>${poi.name}</h1>
+          </div>
+          <div class="description-wrapper">
+            <h3>${poi.location.lat}, ${poi.location.lon}</h3>
+          </div>
+
+          <div class="show-more-button-wrapper">
+            <button class="show-more"
+                    id="show-more-btn-${poi.id}"
+                    (click)="openModalFromPopup(openedPopup)"
+            >
+              Mehr
+            </button>
+          </div>
+        </div>
+      `;
   }
 }
