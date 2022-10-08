@@ -5,6 +5,7 @@ import {PopupDatatransferService} from "./services/popup-datatransfer.service";
 import {PopupModal} from "./components/popup-modal/popup-modal.component"
 
 import {LeafletService} from "./services/leaflet.service";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {LeafletService} from "./services/leaflet.service";
     PopupModal
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatDialogModule
   ],
   exports: [
     LeafletMapComponent

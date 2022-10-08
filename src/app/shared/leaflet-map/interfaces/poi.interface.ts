@@ -10,7 +10,13 @@ export interface PointOfInterest {
     description: string;
   }[];
   info_nodes: {
-    type?: string;
+    type?:
+      'latin-name' |
+      'origin' |
+      'leaves' |
+      'blossoms' |
+      'fruits' |
+      'relation-to-leipzig';
     name?: string;
     text?: string;
     audio?: string;

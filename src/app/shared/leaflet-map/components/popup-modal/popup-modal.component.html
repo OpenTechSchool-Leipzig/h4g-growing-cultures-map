@@ -1,4 +1,54 @@
-<h1> {{ data.poi.name }}</h1>
-<div *ngFor="let info_node of data.poi.info_nodes">
-    <h2>{{info_node.name}}</h2>
-</div>
+<title mat-dialog-title>{{poi.images[0].description}}</title>
+<mat-dialog-content class="mat-typography modal-container">
+  <div class="image-wrapper" *ngIf="poi.images.length > 0">
+    <img [src]="poi.images[0].url" alt>
+  </div>
+
+  <ng-container *ngFor="let node of poi.info_nodes"
+                [ngSwitch]="node.type"
+  >
+
+    <div class="latin-name"
+         *ngSwitchCase="'latin-name'"
+    >
+      <h2>Name in Latin💀:</h2>
+      <span>{{ node.text }}</span>
+    </div>
+
+    <div class="origin"
+         *ngSwitchCase="'origin'"
+    >
+      <h2>Ich komme aus👣:</h2>
+      <span>{{ node.text }}</span>
+    </div>
+
+    <div class="leaves"
+         *ngSwitchCase="'leaves'"
+    >
+      <h2>{{ node.name }}🍃:</h2>
+      <span>{{ node.text }}</span>
+    </div>
+
+    <div class="blossoms"
+         *ngSwitchCase="'blossoms'"
+    >
+      <h2>{{ node.name }}🌺:</h2>
+      <span>{{ node.text }}</span>
+    </div>
+
+    <div class="fruits"
+         *ngSwitchCase="'fruits'"
+    >
+      <h2>{{ node.name }}🍎:</h2>
+      <span>{{ node.text }}</span>
+    </div>
+
+    <div class="relation-to-leipzig"
+         *ngSwitchCase="'relation-to-leipzig'"
+    >
+      <h2>Relation zu Leipzig🧬:</h2>
+      <span [innerHTML]="node.text"></span>
+    </div>
+
+  </ng-container>
+</mat-dialog-content>

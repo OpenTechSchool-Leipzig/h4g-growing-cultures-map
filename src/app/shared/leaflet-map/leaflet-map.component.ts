@@ -66,7 +66,6 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
         return;
       }
 
-
       const openedPopup = this.mainData.pois.filter((poi) =>
         poi.location.lat == latLng.lat && poi.location.lon == latLng.lng
       )[0];
@@ -138,6 +137,28 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
     this.watchUserPosition(this.map, polygon);
   }
 
+  private getMarketHtml(poi: PointOfInterest): string {
+    return `
+        <div class="popup-container">
+          <div class="title-wrapper">
+            <h1>${poi.name}</h1>
+          </div>
+          <div class="description-wrapper">
+            <h3>${poi.location.lat}, ${poi.location.lon}</h3>
+          </div>
+
+          <div class="show-more-button-wrapper">
+            <button class="show-more"
+                    id="show-more-btn-${poi.id}"
+                    (click)="openModalFromPopup(openedPopup)"
+            >
+              Mehr
+            </button>
+          </div>
+        </div>
+      `;
+  }
+
 
   watchUserPosition(map: L.Map, _: L.Polygon<any>): void {
     let options = {
@@ -164,7 +185,6 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
     }, options);
   }
 
-
   openModalFromPopup(poi: PointOfInterest) {
     this.map!.closePopup();
     this.dialog.open(PopupModal, {
@@ -174,25 +194,4 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private getMarketHtml(poi: PointOfInterest): string {
-    return `
-        <div class="popup-container">
-          <div class="title-wrapper">
-            <h1>${poi.name}</h1>
-          </div>
-          <div class="description-wrapper">
-            <h3>${poi.location.lat}, ${poi.location.lon}</h3>
-          </div>
-
-          <div class="show-more-button-wrapper">
-            <button class="show-more"
-                    id="show-more-btn-${poi.id}"
-                    (click)="openModalFromPopup(openedPopup)"
-            >
-              Mehr
-            </button>
-          </div>
-        </div>
-      `;
-  }
 }
