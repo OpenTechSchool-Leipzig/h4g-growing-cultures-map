@@ -1,5 +1,6 @@
 export interface QuizListItem {
   id: string,
   title: string,
-  description: string
+  description: string,
+  stepsCount: number
 }
