@@ -3,6 +3,7 @@ import {QuizListItem} from "../../../../../shared/interfaces/quiz-list-item.inte
 import {QuizService} from "../../../../../shared/services/quiz.service";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-browser',
@@ -14,7 +15,8 @@ export class BrowserComponent implements OnInit {
   quizes$: Observable<QuizListItem[]>| undefined;
   constructor(
     private _quizService: QuizService,
-    private _router: Router
+    private _router: Router,
+    private _matSnackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -34,5 +36,13 @@ export class BrowserComponent implements OnInit {
   onCreateNewClick() {
     this._router.navigate(['admin', 'quizes', 'create'])
       .then(value => console.log(value));
+  }
+
+  onDeleteClick(id: string) {
+    this._quizService.delete(id)
+      .subscribe(() => {
+        this._matSnackBar.open("Deleted", '', {duration: 3000})
+        this.quizes$ = this._quizService.list();
+      })
   }
 }
