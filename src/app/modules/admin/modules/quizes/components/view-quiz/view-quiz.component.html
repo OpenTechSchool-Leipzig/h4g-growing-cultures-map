@@ -1,0 +1,46 @@
+<div class="container">
+<form class="example-form" [formGroup]="formGroup">
+  <div class="go-back">
+    <button mat-mini-fab color="primary" (click)="onGoBackClick()">
+      <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+  </div>
+  <mat-vertical-stepper>
+    <mat-step>
+      <ng-template matStepLabel>General Info</ng-template>
+      <mat-form-field class="input-full-width" appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Quiz Title" formControlName="title" readonly>
+      </mat-form-field>
+
+      <mat-form-field class="input-full-width" appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="Quiz Description"  formControlName="description" readonly></textarea>
+      </mat-form-field>
+      </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Quiz Steps</ng-template>
+      <div class="steps-container" formArrayName="steps" cdkDropList>
+        <mat-card *ngFor="let step of stepsFormArray.controls; let i = index;" [formGroupName]="i">
+          <mat-form-field class="input-full-width" appearance="fill">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Step Title" formControlName="title" readonly>
+          </mat-form-field>
+          <mat-form-field class="input-full-width" appearance="fill">
+            <mat-label>Description</mat-label>
+            <textarea matInput placeholder="Step Description"  formControlName="description" readonly></textarea>
+          </mat-form-field>
+          <mat-form-field class="input-full-width" appearance="fill">
+            <mat-label>External Id</mat-label>
+            <textarea matInput placeholder="External Id"  formControlName="externalId" readonly></textarea>
+          </mat-form-field>
+          <mat-form-field class="input-full-width" appearance="fill">
+            <mat-label>Order</mat-label>
+            <textarea matInput placeholder="Order" formControlName="order" readonly></textarea>
+          </mat-form-field>
+        </mat-card>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+</form>
+</div>
