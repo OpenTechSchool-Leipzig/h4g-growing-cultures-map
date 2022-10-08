@@ -106,7 +106,7 @@ section{
       transition: all 0.8s ease;
       transition-delay: 0.1s;
       
-      transform: translate(0,calc(-100% + 2px));
+      transform: translate(0,-100%);
       background: #161616;
     }
   }
@@ -472,7 +472,7 @@ section{
   opacity: 0;
   visibility: hidden;
   position: fixed;
-  background: #2f80ed;
+  background: #d66615;
   width: 10px;
   height: 10px;
   top: 50%;
@@ -500,7 +500,7 @@ section{
   top: 50%;
   left: 50%;
   position: fixed;
-  border: 1px solid #2f80ed;
+  border: 1px solid #d65b02;
   width: 30px;
   height: 30px;
   border-radius: 100%;
@@ -514,14 +514,14 @@ section{
     width: 30px;
     height: 30px;
     top: 50%;
-    border: 1px solid #2f80ed;
+    border: 1px solid #d65b02;
     border-radius: 100%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
   &._active {
     transform: scale(1.6);
-    background: #2f81ed81;
+    background: #d65a024b;
   }
   &._press {
     &::before{
@@ -666,12 +666,14 @@ main{
   &__button {
     width: 45%;
     margin-top: 30px;
-    padding: 12px 40px;
+    padding: 12px 0;
+    @include adaptiv-value("padding-left", 40, 5, 1);
+    @include adaptiv-value("padding-right", 40, 5, 1);
+    @include adaptiv-value("font-size", 30, 20, 1);
     display: flex;justify-content:center;align-items: center;
     color: #000;
     font-weight: 700;
     background: $btnColor;
-    font-size: 30px;
     transition: all 0.3s ease 0s;
     @media (any-hover: hover){
       &:hover{

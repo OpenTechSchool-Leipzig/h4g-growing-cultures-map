@@ -32,10 +32,20 @@ export class MainPageComponent implements OnInit {
   menuSwitch(): void{
     let iconMenu = document.querySelector('.icon-menu');
     let menuBody = document.querySelector('.menu__body');
-
+    let menuItems = document.querySelectorAll(".menu__item");
     if(iconMenu != null && menuBody != null){
         iconMenu.classList.toggle('_active');
         menuBody.classList.toggle('_active');
+    }
+    if(menuItems != null){
+      menuItems.forEach(element => {
+        element.addEventListener('click', () => {
+          if(iconMenu != null && menuBody != null){
+            iconMenu.classList.toggle('_active');
+            menuBody.classList.toggle('_active');
+        }
+        })
+      });
     }
   }
   changingTheEnvironment(): void{
