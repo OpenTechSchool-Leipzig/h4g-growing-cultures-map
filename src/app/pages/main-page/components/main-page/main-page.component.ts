@@ -37,8 +37,19 @@ export class MainPageComponent implements OnInit {
         iconMenu.classList.toggle('_active');
         menuBody.classList.toggle('_active');
     }
-}
+  }
+  showMenu(): void{
+  }
   ngAfterContentInit(): void{
+    const triger = document.getElementById("logo");
+    const menu = document.getElementById("header");
+    if(triger != null && menu != null){
+      triger.addEventListener('click', () => {
+        if(window.scrollY > 0){
+        menu.classList.toggle('_scroll')
+      }
+      })
+    }
 
     function cursorNone(){
       document.querySelectorAll('body *:not(script)').forEach(element => element.classList.add("cursorNone"));
@@ -56,7 +67,6 @@ export class MainPageComponent implements OnInit {
       let posX = 0, posY = 0, mouseX = 0, mouseY = 0;
       let followerSpead =0,cursorMargin=0,clickDuration=1000;
 
-      console.log(cursor)
       if(cursor != null && follower != null){
         let followerValue = follower.getAttribute('cursor-animation-property')
         if(followerValue){
@@ -64,7 +74,6 @@ export class MainPageComponent implements OnInit {
           followerSpead = parseInt(_followerValue[0])
           cursorMargin = parseInt(_followerValue[1])
           clickDuration = parseInt(_followerValue[2])
-          console.log(_followerValue[0])
         }
         //-------------------
         setInterval(() => {
@@ -108,11 +117,15 @@ export class MainPageComponent implements OnInit {
     function headerbg(){
       //цвет хедера
       const header =  document.getElementById('header');
+      const tree =  document.getElementById('tree');
       if(header != null){
         const callback = function(entries: any,observer: any) {
           if(entries[0].isIntersecting){
             header.classList.remove('_scroll');
           }else{
+            if(tree!=null){
+              tree.classList.add('_scroll');
+            }
             header.classList.add('_scroll');
           }
         }
