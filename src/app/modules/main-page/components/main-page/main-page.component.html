@@ -24,19 +24,20 @@
           <nav class="menu__body">
             <ul class="menu__list">
               <li class="menu__item">
-                <a  class="menu__link" (click)="changingTheEnvironment()">Lorem, ipsum</a>
+                <a class="menu__link"
+                   href="https://growing-cultures.com/"
+                   target="_blank"
+                   (click)="changingTheEnvironment()">
+                  Official Website
+                </a>
               </li>
               <li class="menu__item">
-                <a href="" class="menu__link">Lorem, ipsum</a>
+                <a href="" class="menu__link">Game</a>
               </li>
               <li class="menu__item">
-                <a href="" class="menu__link">Lorem, ipsum</a>
-              </li>
-              <li class="menu__item">
-                <a href="" class="menu__link">Lorem, ipsum</a>
-              </li>
-              <li class="menu__item">
-                <a href="" class="menu__link">Lorem, ipsum</a>
+                <a href="https://t.me/MartinBaum_bot" target="_blank" class="menu__link">
+                  Open Telegram
+                </a>
               </li>
             </ul>
           </nav>
@@ -48,18 +49,20 @@
 <main>
   <div class="logo cursorLink" id="logo">
     <div class="img-wrapper _ibg">
-      <img src="assets/header_bg_2.png" alt="" />
+      <img src="assets/header_bg_2.png" alt=""/>
     </div>
   </div>
   <section class="section__fullscreen fullscreen">
     <div class="fullscreen__container _container">
       <div class="fullscrean-page__img _ibg" id="tree">
-        <img src="assets/1.png" alt="" />
+        <img src="assets/1.png" alt=""/>
       </div>
       <div class="fullscrean-page__outImg _ibg" id="branch">
-        <img src="assets/3.png" alt="" />
+        <img src="assets/3.png" alt=""/>
       </div>
-      <div class="map" id="map"> asdfasdf asdf </div>
+      <div class="map" id="map">
+        <app-leaflet-map></app-leaflet-map>
+      </div>
       <div class="rigth-bar" id="rigth-bar">
         <h1 class="rigth-bar__title">Growing Cultures</h1>
         <p class="rigth-bar__text">
@@ -69,8 +72,9 @@
           quia illo.
         </p>
         <div class="rigth-bar__buttons">
-          <button class="rigth-bar__button" (click)="changingTheEnvironment()">go to map</button>
-          <button class="rigth-bar__button">button</button>
+          <button class="rigth-bar__button" (click)="changingTheEnvironment()">
+            Zur Karte
+          </button>
         </div>
       </div>
     </div>
