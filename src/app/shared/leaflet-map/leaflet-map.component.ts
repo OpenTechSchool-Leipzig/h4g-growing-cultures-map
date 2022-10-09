@@ -86,8 +86,12 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    var routePath: [number, number][] = [];
+
     this.mainData.pois.forEach((poi) => {
       let marker = L.marker([poi.location.lat, poi.location.lon]).addTo(map);
+
+      routePath.push([poi.location.lat, poi.location.lon]);
 
       marker.setIcon(icon({
         iconRetinaUrl,
@@ -112,6 +116,7 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
           .setContent(popupHtml)
       ).openPopup();
     })
+    L.polyline(routePath, {color: '#59CC2B'}).addTo(map);
   }
 
   private initTiles(): void {
@@ -169,16 +174,7 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
     navigator.geolocation.watchPosition((pos) => {
       this._userMarker.remove;
       this._userMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
-      this._userMarker.setIcon(icon({
-        iconRetinaUrl,
-        iconUrl,
-        shadowUrl,
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        tooltipAnchor: [16, -28],
-        shadowSize: [41, 41]
-      }))
+      this._userMarker.setIcon(userIcon)
       this._userMarker.addTo(map);
 
     }, (_) => {
