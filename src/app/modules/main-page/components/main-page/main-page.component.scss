@@ -689,6 +689,7 @@ main {
   text-align: center;
   visibility: visible;
   transition: all 0.4s ease-in 0s;
+  border-radius: 25px;
 
   &._leave {
     opacity: 0;
@@ -738,9 +739,32 @@ main {
     font-weight: 700;
     background: $btnColor;
     transition: all 0.3s ease 0s;
+    border-radius: 25px;
     @media (any-hover: hover) {
       &:hover {
         background: $hoverColor;
+
+        @keyframes sharpeningAngles {
+          0% {
+            border-radius: 25px;
+          }
+          25% {
+            border-radius: 14px 0 14px 0;
+          }
+          50% {
+            border-radius: 25px;
+          }
+          75% {
+            border-radius: 0 14px 0 14px;
+          }
+          100% {
+            border-radius: 25px;
+          }
+        }
+        animation-duration: 3s;
+        animation-name: sharpeningAngles;
+        animation-iteration-count: infinite;
+        animation-direction: normal;
       }
     }
     display: block;
