@@ -1,12 +1,23 @@
+.mat-dialog-title {
+  font-size: 30px;
+  text-align: right;
+  font-weight: 700;
+
+
+}
+
 .modal-container {
   .image-wrapper {
     float: left;
     width: 50%;
+    box-shadow: rgb(0 0 0 / 25%) 0 0.0625em 0.0625em, rgb(0 0 0 / 25%) 0 0.125em 0.5em, rgb(255 255 255 / 10%) 0 0 0 1px inset;
+    margin: 10px;
+    margin-left: 0;
     @media screen and (max-width: 800px) {
       width: 100%;
       float: none;
     }
-    border: 1px solid #111;
+    //border: 1px solid #111;
 
     img {
       width: 100%;
@@ -23,15 +34,21 @@
     flex-direction: column;
     justify-content: right;
     align-items: flex-end;
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+    padding: 12px 18px;
+
+    margin-bottom: 10px;
   }
 
   h2, span {
     text-align: right;
     margin: 0;
   }
+
   h2 {
-    margin-top: 16px;
+    //margin-top: 24px;
   }
+
   span {
     font-size: 18px;
   }
