@@ -1,0 +1,38 @@
+.modal-container {
+  .image-wrapper {
+    float: left;
+    width: 50%;
+    @media screen and (max-width: 800px) {
+      width: 100%;
+      float: none;
+    }
+    border: 1px solid #111;
+
+    img {
+      width: 100%;
+    }
+
+    p {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: flex-end;
+  }
+
+  h2, span {
+    text-align: right;
+    margin: 0;
+  }
+  h2 {
+    margin-top: 16px;
+  }
+  span {
+    font-size: 18px;
+  }
+}

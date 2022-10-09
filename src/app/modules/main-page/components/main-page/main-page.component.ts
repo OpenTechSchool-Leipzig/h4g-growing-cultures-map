@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-main-page',
@@ -7,17 +7,18 @@ import { Component, OnInit, AfterContentInit } from '@angular/core';
 })
 export class MainPageComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     const line = document.getElementById('line');
-    if(line != null){
+    if (line != null) {
       setTimeout(() => {
         //полоса прокрутки
         let windowHeight = window.innerHeight //высота окна браузера
-        let Height  = document.documentElement.scrollHeight-windowHeight //высота всей страницы
+        let Height = document.documentElement.scrollHeight - windowHeight //высота всей страницы
         setInterval(() => {
-          let HeightTop  = document.documentElement.scrollTop //высота, на которую проскролили
+          let HeightTop = document.documentElement.scrollTop //высота, на которую проскролили
 
           let widthLine = HeightTop / Height * 100 //ширина полосы прокрутки
           line.style.cssText = `
@@ -27,48 +28,59 @@ export class MainPageComponent implements OnInit {
         }, 1);
       }, 1.5);
     }
-
   }
-  menuSwitch(): void{
+
+  menuSwitch(): void {
     let iconMenu = document.querySelector('.icon-menu');
     let menuBody = document.querySelector('.menu__body');
-
-    if(iconMenu != null && menuBody != null){
-        iconMenu.classList.toggle('_active');
-        menuBody.classList.toggle('_active');
+    let menuItems = document.querySelectorAll(".menu__item");
+    if (iconMenu != null && menuBody != null) {
+      iconMenu.classList.toggle('_active');
+      menuBody.classList.toggle('_active');
+    }
+    if (menuItems != null) {
+      menuItems.forEach(element => {
+        element.addEventListener('click', () => {
+          if (iconMenu != null && menuBody != null) {
+            iconMenu.classList.toggle('_active');
+            menuBody.classList.toggle('_active');
+          }
+        })
+      });
     }
   }
-  changingTheEnvironment(): void{
+
+  changingTheEnvironment(): void {
     const elements = document.querySelectorAll("#tree, #branch, #rigth-bar");
     const showElement = document.getElementById("map");
     const header = document.getElementById("header")
-    if(elements != null){
+    if (elements != null) {
       elements.forEach(element => {
-        element.classList.contains("_leave")?
-        element.classList.remove("_leave"):
-        element.classList.add("_leave")
+        element.classList.contains("_leave") ?
+          element.classList.remove("_leave") :
+          element.classList.add("_leave")
       });
     }
-    if(showElement != null){
-      showElement.classList.contains("_show")?
-      showElement.classList.remove("_show"):
-      showElement.classList.add("_show")
+    if (showElement != null) {
+      showElement.classList.contains("_show") ?
+        showElement.classList.remove("_show") :
+        showElement.classList.add("_show")
     }
-    if(header!= null){
+    if (header != null) {
       header.classList.add("_scroll")
     }
   }
 
-  ngAfterContentInit(): void{
+  ngAfterContentInit(): void {
     const triger = document.getElementById("logo");
     const menu = document.getElementById("header");
-    if(triger != null && menu != null){
+    if (triger != null && menu != null) {
       triger.addEventListener('click', () => {
         menu.classList.toggle('_scroll')
       })
     }
 
-    function cursorNone(){
+    function cursorNone() {
       document.querySelectorAll('body *:not(script)').forEach(element => element.classList.add("cursorNone"));
     }
 
@@ -77,16 +89,17 @@ export class MainPageComponent implements OnInit {
     }
 
     cursor();
-    function cursor(){
+
+    function cursor() {
       cursorNone()
       const cursor = document.getElementById('_cursor');
       const follower = document.getElementById('_follower');
       let posX = 0, posY = 0, mouseX = 0, mouseY = 0;
-      let followerSpead =0,cursorMargin=0,clickDuration=1000;
+      let followerSpead = 0, cursorMargin = 0, clickDuration = 1000;
 
-      if(cursor != null && follower != null){
+      if (cursor != null && follower != null) {
         let followerValue = follower.getAttribute('cursor-animation-property')
-        if(followerValue){
+        if (followerValue) {
           const _followerValue = followerValue.split(',')
           followerSpead = parseInt(_followerValue[0])
           cursorMargin = parseInt(_followerValue[1])
@@ -101,7 +114,7 @@ export class MainPageComponent implements OnInit {
         }, 0.01);
         //-------------------
         document.addEventListener('click', () => {
-          if(!follower.classList.contains('_press')){
+          if (!follower.classList.contains('_press')) {
             follower.classList.add('_press')
             cursor.classList.add('_press')
             setTimeout(() => {
@@ -110,7 +123,7 @@ export class MainPageComponent implements OnInit {
             }, clickDuration);
           }
         })
-        window.addEventListener('mousemove', e =>{
+        window.addEventListener('mousemove', e => {
           mouseX = e.clientX
           mouseY = e.clientY
         })
@@ -131,16 +144,17 @@ export class MainPageComponent implements OnInit {
     }
 
     headerbg()
-    function headerbg(){
+
+    function headerbg() {
       //цвет хедера
-      const header =  document.getElementById('header');
-      const tree =  document.getElementById('tree');
-      if(header != null){
-        const callback = function(entries: any,observer: any) {
-          if(entries[0].isIntersecting){
+      const header = document.getElementById('header');
+      const tree = document.getElementById('tree');
+      if (header != null) {
+        const callback = function (entries: any, _: any) {
+          if (entries[0].isIntersecting) {
             header.classList.remove('_scroll');
-          }else{
-            if(tree!=null){
+          } else {
+            if (tree != null) {
               tree.classList.add('_scroll');
             }
             header.classList.add('_scroll');

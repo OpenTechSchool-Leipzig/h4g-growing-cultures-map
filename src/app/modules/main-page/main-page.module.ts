@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {MainPageComponent} from "./components/main-page/main-page.component";
+import {LeafletMapModule} from "../../shared/leaflet-map/leaflet-map.module";
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    LeafletMapModule
   ]
 })
 export class MainPageModule {
